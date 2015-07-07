@@ -48,7 +48,8 @@
     positionFromTop: 50,
     resizeDuration: 700,
     showImageNumberLabel: true,
-    wrapAround: false
+    wrapAround: false,
+	  ignoreSets: false
   };
 
   Lightbox.prototype.option = function(options) {
@@ -165,12 +166,18 @@
 
     if (dataLightboxValue) {
       $links = $($link.prop('tagName') + '[data-lightbox="' + dataLightboxValue + '"]');
-      for (var i = 0; i < $links.length; i = ++i) {
-        addToAlbum($($links[i]));
-        if ($links[i] === $link[0]) {
-          imageNumber = i;
-        }
-      }
+
+	    //modified to ignore sets;
+	    if(this.options.ignoreSets){
+		    addToAlbum($($links[0]));
+	    }else{
+		    for (var i = 0; i < $links.length; i = ++i) {
+			    addToAlbum($($links[i]));
+			    if ($links[i] === $link[0]) {
+				    imageNumber = i;
+			    }
+		    }
+	    }
     } else {
       if ($link.attr('rel') === 'lightbox') {
         // If image is not part of a set
